@@ -14,17 +14,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Stage only the widget file
+      - name: Stage only the widget file, renamed to index.html
         run: |
           mkdir -p dist
-          cp est-ist-time-converter.html dist/
+          cp est-ist-time-converter.html dist/index.html
 
-      - name: FTP upload to public_html
+      # dangerous-clean-slate stays false, and server-dir is scoped to /estist/ only
+      # so this action can never touch anything outside that one subfolder.
+      - name: FTP upload to public_html/estist
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
-          server-dir: /
+          server-dir: /estist/
           dangerous-clean-slate: false
