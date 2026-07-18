@@ -14,10 +14,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Stage only the widget file, renamed to index.html
+      - name: Stage the widget wrapped in a standalone HTML page
         run: |
           mkdir -p dist
-          cp est-ist-time-converter.html dist/index.html
+          {
+            echo '<!DOCTYPE html>'
+            echo '<html lang="en">'
+            echo '<head>'
+            echo '<meta charset="UTF-8">'
+            echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">'
+            echo '<title>EST/EDT &harr; IST Time Converter</title>'
+            echo '</head>'
+            echo '<body>'
+            cat est-ist-time-converter.html
+            echo '</body>'
+            echo '</html>'
+          } > dist/index.html
 
       # dangerous-clean-slate stays false, and server-dir is scoped to /estist/ only
       # so this action can never touch anything outside that one subfolder.
