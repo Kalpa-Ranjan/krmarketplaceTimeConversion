@@ -38,6 +38,7 @@ jobs:
       # dangerous-clean-slate stays false, and server-dir is scoped to /estist/ only
       # so this action can never touch anything outside that one subfolder.
       - name: FTP upload to public_html/estist
+        if: secrets.FTP_HOST != '' && secrets.FTP_USERNAME != '' && secrets.FTP_PASSWORD != ''
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
