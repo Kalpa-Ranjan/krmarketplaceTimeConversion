@@ -35,6 +35,8 @@ jobs:
       # so this action can never touch anything outside that one subfolder.
       - name: FTP upload to public_html/estist
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        env:
+          ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
