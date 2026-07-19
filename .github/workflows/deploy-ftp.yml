@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "est-ist-time-converter.html"
+      - ".github/workflows/deploy-ftp.yml"
   workflow_dispatch: {}
 
 jobs:
@@ -17,7 +18,22 @@ jobs:
       - name: Stage only the widget file, renamed to index.html
         run: |
           mkdir -p dist
-          cp est-ist-time-converter.html dist/index.html
+          cat > dist/index.html <<'EOF'
+          <!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <meta name="description" content="Convert time between US Eastern Time and Indian Standard Time.">
+              <title>EST to IST Time Converter</title>
+            </head>
+            <body>
+          EOF
+          cat est-ist-time-converter.html >> dist/index.html
+          cat >> dist/index.html <<'EOF'
+            </body>
+          </html>
+          EOF
 
       # dangerous-clean-slate stays false, and server-dir is scoped to /estist/ only
       # so this action can never touch anything outside that one subfolder.
