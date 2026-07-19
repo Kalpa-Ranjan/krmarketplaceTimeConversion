@@ -31,6 +31,15 @@ jobs:
             echo '</html>'
           } > dist/index.html
 
+      - name: Debug secret shape (no raw values printed)
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+        run: |
+          printf '%s' "$FTP_HOST" | wc -c
+          printf '%s' "$FTP_HOST" | od -c | head -5
+          printf '%s' "$FTP_USERNAME" | wc -c
+
       # dangerous-clean-slate stays false, and server-dir is scoped to /estist/ only
       # so this action can never touch anything outside that one subfolder.
       - name: FTP upload to public_html/estist
